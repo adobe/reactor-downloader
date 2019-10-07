@@ -76,7 +76,7 @@ The location to save the settings.  The file name should end in ".json".  (defau
 
 This tool can be used in many ways, but here are a few suggested uses:
 
-- use in conjunction with [reactor-sync](https://git.corp.adobe.com/adobe/reactor-sync).
+- use in conjunction with [reactor-sync](https://github.com/adobe/reactor-sync).
 - If you are already storing the code that goes into Launch in repositories, this tool will be your best friend.  
   - bootstrap your repository with a current Launch Property and all of it's code without having to download everything from Launch manually.
 - Run automated tests to ensure that your code doesn't have any obvious errors.
