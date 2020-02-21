@@ -187,20 +187,43 @@ yargs
     }])).clientSecret;
   }
 
-  const METASCOPES = [
-    // 'ent_reactor_extension_developer_sdk',
-    'ent_reactor_admin_sdk',
-    // 'ent_reactor_it_admin_sdk',
-  ];
-  // try to get an access token using a few different metascopes
-  for (let i = 0; i < METASCOPES.length; i++) {
+  // if we were passed a payload already, us that for authenticating...
+  if (args.integration) {
 
-    try {
+    // getAccessToken
+    args.accessToken = await getAccessToken(args);
+    
+  // otherwise try the admin metascope...
+  // TODO: add other metascopes...
+  } else {
+    const METASCOPES = [
+      // 'ent_reactor_extension_developer_sdk',
+      'ent_reactor_admin_sdk',
+      // 'ent_reactor_it_admin_sdk',
+    ];
+    // try to get an access token using a few different metascopes
+    for (let i = 0; i < METASCOPES.length; i++) {
 
-      // getAccessToken
-      args.accessToken = await getAccessToken({
-        environment: args.environment,
-        integration: {
+      try {
+
+        // getAccessToken
+        args.accessToken = await getAccessToken({
+          environment: args.environment,
+          integration: {
+            clientId: args.apiKey,
+            clientSecret: args.clientSecret,
+            privateKey: args.privateKey,
+            payload: {
+              iss: args.orgId,
+              sub: args.techAccountId,
+              aud: args.environment.aud + args.apiKey,
+              [`${args.environment.scope}${METASCOPES[i]}`]: true
+            }
+          }
+        });
+
+        // if we don't throw an error, save the integration
+        args.integration = {
           clientId: args.apiKey,
           clientSecret: args.clientSecret,
           privateKey: args.privateKey,
@@ -210,40 +233,28 @@ yargs
             aud: args.environment.aud + args.apiKey,
             [`${args.environment.scope}${METASCOPES[i]}`]: true
           }
+        };
+
+      } catch (e) {
+
+        if (!e.error) {
+          throw e;
         }
-      });
 
-      // if we don't throw an error, save the integration
-      args.integration = {
-        clientId: args.apiKey,
-        clientSecret: args.clientSecret,
-        privateKey: args.privateKey,
-        payload: {
-          iss: args.orgId,
-          sub: args.techAccountId,
-          aud: args.environment.aud + args.apiKey,
-          [`${args.environment.scope}${METASCOPES[i]}`]: true
+        const parsedErrorObject = JSON.parse(e.error);
+
+        if (
+          parsedErrorObject.error !== 'invalid_scope' || 
+          i === METASCOPES.length - 1
+        ) {
+          throw new Error(`Error retrieving access token. ${parsedErrorObject.error_description}`);
         }
-      };
 
-    } catch (e) {
-
-      if (!e.error) {
-        throw e;
-      }
-
-      const parsedErrorObject = JSON.parse(e.error);
-
-      if (
-        parsedErrorObject.error !== 'invalid_scope' || 
-        i === METASCOPES.length - 1
-      ) {
-        throw new Error(`Error retrieving access token. ${parsedErrorObject.error_description}`);
       }
 
     }
-
   }
+  
 
   // propertyId
   if (!args.propertyId) {
