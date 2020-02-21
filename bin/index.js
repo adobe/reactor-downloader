@@ -65,6 +65,26 @@ yargs
 .command('$0', 'Download an Adobe Launch property to your local file system.', async (argv) => {
 
   let args = argv.argv;
+  let settingsPath = args.settingsPath || './.reactor-settings.json';
+
+  // if the file exists, use that instead
+  if (fs.existsSync(settingsPath)) {
+
+    try {
+      args = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+
+      // set this so it doesn't trigger
+      args.env = args.environment.name;
+      args.privateKey = args.integration && args.integration.privateKey;
+      args.orgId = args.integration && args.integration.payload && args.integration.payload.iss;
+      args.techAccountId = args.integration && args.integration.payload && args.integration.payload.sub;
+      args.apiKey = args.integration && args.integration.clientId;
+      args.clientSecret = args.integration && args.integration.clientSecret;
+      args.clientSecret = args.integration && args.integration.clientSecret;
+    } catch (e) {
+      throw Error('Settings file is not parsable as a JSON object.');
+    }
+  }
 
   // get the environment
   if (!args.env) {
@@ -118,6 +138,7 @@ yargs
       reactorUrl: 'https://reactor-dev.adobe.io',
     }
   };
+
   args.environment = environments[args.env];
 
   // accessToken information
@@ -264,7 +285,6 @@ yargs
   await download(args);
 
   if (args.save) {
-    const settingsPath = args.settingsPath || './.reactor-settings.json';
 
     // settings object
     const settings = {
