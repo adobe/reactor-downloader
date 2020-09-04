@@ -198,8 +198,9 @@ yargs
   } else {
     const METASCOPES = [
       // 'ent_reactor_extension_developer_sdk',
-      'ent_reactor_admin_sdk',
+      // 'ent_reactor_admin_sdk',
       // 'ent_reactor_it_admin_sdk',
+      'ent_reactor_sdk',
     ];
     // try to get an access token using a few different metascopes
     for (let i = 0; i < METASCOPES.length; i++) {
