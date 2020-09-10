@@ -111,6 +111,7 @@ yargs
   const environments = {
     production: {
       name: 'production',
+      ims: 'https://ims-na1.adobelogin.com',
       jwt: 'https://ims-na1.adobelogin.com/ims/exchange/jwt',
       aud: 'https://ims-na1.adobelogin.com/c/',
       scope: 'https://ims-na1.adobelogin.com/s/',
@@ -118,6 +119,7 @@ yargs
     },
     integration: {
       name: 'integration',
+      ims: 'https://ims-na1.adobelogin.com',
       jwt: 'https://ims-na1.adobelogin.com/ims/exchange/jwt',
       aud: 'https://ims-na1.adobelogin.com/c/',
       scope: 'https://ims-na1.adobelogin.com/s/',
@@ -125,6 +127,7 @@ yargs
     },
     qe: {
       name: 'qe',
+      ims: 'https://ims-na1-stg1.adobelogin.com',
       jwt: 'https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt',
       aud: 'https://ims-na1-stg1.adobelogin.com/c/',
       scope: 'https://ims-na1-stg1.adobelogin.com/s/',
@@ -132,6 +135,7 @@ yargs
     },
     development: {
       name: 'development',
+      ims: 'https://ims-na1-stg1.adobelogin.com',
       jwt: 'https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt',
       aud: 'https://ims-na1-stg1.adobelogin.com/c/',
       scope: 'https://ims-na1-stg1.adobelogin.com/s/',
@@ -211,6 +215,8 @@ yargs
         args.accessToken = await getAccessToken({
           environment: args.environment,
           integration: {
+            techAccountId: args.techAccountId,
+            orgId: args.orgId,
             clientId: args.apiKey,
             clientSecret: args.clientSecret,
             privateKey: args.privateKey,
@@ -225,6 +231,8 @@ yargs
 
         // if we don't throw an error, save the integration
         args.integration = {
+          techAccountId: args.techAccountId,
+          orgId: args.orgId,
           clientId: args.apiKey,
           clientSecret: args.clientSecret,
           privateKey: args.privateKey,

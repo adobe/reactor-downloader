@@ -12,7 +12,8 @@ governing permissions and limitations under the License.
 
 const fs = require('fs');
 const jwt = require('jwt-simple');
-const request = require('request-promise-native');
+// const request = require('request-promise-native');
+const auth = require('@adobe/jwt-auth');
 
 module.exports = async (settings) => {
 
@@ -22,6 +23,12 @@ module.exports = async (settings) => {
   // check to make sure we have all of the correct information in the settings file
   if (!integration) {
     throw Error('settings file does not have an "integration" property.');
+  }
+  if (!integration.techAccountId) {
+    throw Error('settings file does not have an "integration.techAccountId" property.');
+  }
+  if (!integration.orgId) {
+    throw Error('settings file does not have an "integration.orgId" property.');
   }
   if (!integration.clientId) {
     throw Error('settings file does not have an "integration.clientId" property.');
@@ -52,22 +59,31 @@ module.exports = async (settings) => {
   }
 
   // generate a jwtToken
-  integration.payload.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24;
-  const jwtToken = jwt.encode(integration.payload, privateKeyContent, 'RS256');
+  // integration.payload.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24;
+  // const jwtToken = jwt.encode(integration.payload, privateKeyContent, 'RS256');
 
   // Make a request to exchange the jwt token for a bearer token
-  const body = await request({
-    method: 'POST',
-    url: environment.jwt,
-    headers: {
-      'Cache-Control': 'no-cache'
-    },
-    form: {
-      client_id: integration.clientId,
-      client_secret: integration.clientSecret,
-      jwt_token: jwtToken
-    },
-    transform: JSON.parse
+  // const body = await request({
+  //   method: 'POST',
+  //   url: environment.jwt,
+  //   headers: {
+  //     'Cache-Control': 'no-cache'
+  //   },
+  //   form: {
+  //     client_id: integration.clientId,
+  //     client_secret: integration.clientSecret,
+  //     jwt_token: jwtToken
+  //   },
+  //   transform: JSON.parse
+  // });
+  const body = await auth({
+    clientId: integration.clientId,
+    technicalAccountId: integration.techAccountId,
+    orgId: integration.orgId,
+    clientSecret: integration.clientSecret,
+    privateKey: privateKeyContent,
+    metaScopes: [`${environment.scope}ent_reactor_sdk`],
+    ims: environment.ims,
   });
 
   return body.access_token;

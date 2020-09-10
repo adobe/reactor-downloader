@@ -25,6 +25,7 @@
     "eslint": "./node_modules/.bin/eslint ."
   },
   "dependencies": {
+    "@adobe/jwt-auth": "^0.3.1",
     "@adobe/reactor-sdk": "^1.0.5",
     "inquirer": "^6.3.1",
     "jwt-simple": "^0.5.6",
