@@ -87,27 +87,7 @@ yargs
   }
 
   // get the environment
-  if (!args.env) {
-    args.env = (await inquirer.prompt([{
-      type: 'list',
-      name: 'env',
-      message: 'To which environment would you like to download the property from?',
-      choices: [{
-        name: 'Production',
-        value: 'production',
-      }, {
-        name: 'Integration (Adobe Internal Use Only)',
-        value: 'integration',
-      }, {
-        name: 'QE (Adobe Internal Use Only)',
-        value: 'qe',
-      }, {
-        name: 'Development (Adobe Internal Use Only)',
-        value: 'development',
-      }],
-      default: 0
-    }])).env;
-  }
+  args.env = args.env || 'production'; // do not ask for it, people outside Adobe will never use it
   const environments = {
     production: {
       name: 'production',
@@ -191,7 +171,7 @@ yargs
     }])).clientSecret;
   }
 
-  // if we were passed a payload already, us that for authenticating...
+  // if we were passed a payload already, use that for authenticating...
   if (args.integration) {
 
     // getAccessToken
@@ -201,10 +181,11 @@ yargs
   // TODO: add other metascopes...
   } else {
     const METASCOPES = [
-      // 'ent_reactor_extension_developer_sdk',
-      // 'ent_reactor_admin_sdk',
       // 'ent_reactor_it_admin_sdk',
       'ent_reactor_sdk',
+      // the two following are needed for compatibility with integrations created before the ent_reactor_sdk metascope existed.
+      'ent_reactor_extension_developer_sdk',
+      'ent_reactor_admin_sdk',
     ];
     // try to get an access token using a few different metascopes
     for (let i = 0; i < METASCOPES.length; i++) {
