@@ -87,7 +87,7 @@ yargs
   }
 
   // get the environment
-  args.env == args.env || 'production'; // do not ask for it, people outside Adobe will never use it
+  args.env = args.env || 'production'; // do not ask for it, people outside Adobe will never use it
   const environments = {
     production: {
       name: 'production',
