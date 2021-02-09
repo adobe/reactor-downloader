@@ -36,10 +36,6 @@ npx @adobe/reactor-downloader --env=production --private-key=/Users/jane/launchk
 
 The named parameters are as follows:
 
-##### --env
-
-The environment where the property exists. Valid options are `development`, `qe`, `integration`, and `production`. Users outside of Adobe will only use `production`.
-
 ##### --private-key (for authentication using an Adobe I/O integration)
 
 The local path (relative or absolute) to the RSA private key. Instructions on how to generate this key can be found in the [Getting Started guide](https://developer.adobelaunch.com/guides/extensions/getting-started/) and should have been used when creating your integration through the Adobe I/O console.
@@ -60,9 +56,9 @@ Your API key. You can find this on the overview screen for the integration you h
 
 Your client secret. You can find this on the overview screen for the integration you have created within the [Adobe I/O console](https://console.adobe.io).
 
-##### --access-token (for authentication using an access token)
+##### --env (for Adobe internal use only)
 
-A valid access token.
+The environment where the property exists. Valid options are `development`, `qe`, `integration`, and `production`. Users outside of Adobe do not have to use this flag.
 
 ##### --save
 
