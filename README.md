@@ -1,20 +1,20 @@
 # reactor-downloader
 
-Command line tool for downloading a Launch property to a local directory.
+Command line tool for downloading a property from Adobe Experience Platform Tags to a local directory.
 
 ## Usage
 
 Before running the downloader tool, you must first have [Node.js](https://nodejs.org/en/) installed on your computer. Your npm version (npm comes bundled with Node.js) will need to be at least 10.15.0. You can check the installed version by running the following command from a command line:
-                                                                                                      
+                                                              
 ```
 npm -v
 ```
 
-You will also need to be authorized to use the Launch APIs. This is done by first creating an integration through Adobe I/O. Please see the [Access Tokens Guide](https://developer.adobelaunch.com/api/guides/access_tokens/) for detailed steps on creating an integration and procuring api access rights.
+You will also need to be authorized to use the Reactor APIs. This is done by first creating an integration through Adobe I/O. Please see the [Access Tokens Guide](https://developer.adobelaunch.com/api/guides/access_tokens/) for detailed steps on creating an integration and procuring api access rights.
 
-Finally, you must first have created a property in Adobe Launch to download. 
+Finally, you must first have created a property in Tags to download. 
 
-Once you have a property ready to download and have an integraton created through Adobe I/O that can access the Adobe Launch APIs, you can use the bootstrapper tool in either a question-answer format or by passing information through command line arguments.
+Once you have a property ready to download and have an integraton created through Adobe I/O that can access the Reactor APIs, you can use the bootstrapper tool in either a question-answer format or by passing information through command line arguments.
 
 ### Question-Answer Format
 
@@ -73,11 +73,11 @@ The location to save the settings.  The file name should end in ".json".  (defau
 This tool can be used in many ways, but here are a few suggested uses:
 
 - use in conjunction with [reactor-sync](https://github.com/adobe/reactor-sync).
-- If you are already storing the code that goes into Launch in repositories, this tool will be your best friend.  
-  - bootstrap your repository with a current Launch Property and all of it's code without having to download everything from Launch manually.
+- If you are already storing the code that goes into Tags in repositories, this tool will be your best friend.  
+  - bootstrap your repository with a current Tags Property and all of it's code without having to download everything from Tags manually.
 - Run automated tests to ensure that your code doesn't have any obvious errors.
-- Run transpiles on your code automatically and then automatically sync it into Launch.
-- Run linters or code style enforcement tools to ensure that your code is always clean and you can always point to who is writing code in Launch that doesn't stay to standards. 
+- Run transpiles on your code automatically and then automatically sync it into Tags.
+- Run linters or code style enforcement tools to ensure that your code is always clean and you can always point to who is writing code in Tags that doesn't stay to standards. 
 
 If you have other use cases, let me know and I can update this list.
 
