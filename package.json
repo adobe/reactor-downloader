@@ -1,7 +1,7 @@
 {
   "name": "@adobe/reactor-downloader",
   "version": "0.2.1",
-  "description": "Command line tool for downloading data from Adobe Launch to a local directory.",
+  "description": "Command line tool for downloading data from Adobe Tags to a local directory.",
   "author": {
     "name": "Adobe Systems",
     "url": "http://adobe.com",
